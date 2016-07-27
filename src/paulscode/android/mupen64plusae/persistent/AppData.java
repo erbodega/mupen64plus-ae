@@ -258,7 +258,8 @@ public class AppData
         else
             coreLib = libsDir + "/libmupen64plus-core.so";
         
-        rspLib = libsDir + "/libmupen64plus-rsp-hle.so";
+        //rspLib = libsDir + "/libmupen64plus-rsp-hle.so";
+        rspLib = libsDir + "/libmupen64plus-rsp-cxd4.so";
         inputLib = libsDir + "/libmupen64plus-input-android.so";
         gln64_conf = coreSharedDataDir + "/gln64.conf";
         glide64mk2_ini = coreSharedDataDir + "/Glide64mk2.ini";

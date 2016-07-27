@@ -56,10 +56,10 @@ NOINLINE void update_conf(const char* source)
 {
     memset(conf, 0, sizeof(conf));
 
-    CFG_HLE_GFX = ConfigGetParamBool(l_ConfigRsp, "DisplayListToGraphicsPlugin");
-    CFG_HLE_AUD = ConfigGetParamBool(l_ConfigRsp, "AudioListToAudioPlugin");
-    CFG_WAIT_FOR_CPU_HOST = ConfigGetParamBool(l_ConfigRsp, "WaitForCPUHost");
-    CFG_MEND_SEMAPHORE_LOCK = ConfigGetParamBool(l_ConfigRsp, "SupportCPUSemaphoreLock");
+    CFG_HLE_GFX = 1;//ConfigGetParamBool(l_ConfigRsp, "DisplayListToGraphicsPlugin");
+    CFG_HLE_AUD = 0;//ConfigGetParamBool(l_ConfigRsp, "AudioListToAudioPlugin");
+    CFG_WAIT_FOR_CPU_HOST = 0;//ConfigGetParamBool(l_ConfigRsp, "WaitForCPUHost");
+    CFG_MEND_SEMAPHORE_LOCK = 0;//ConfigGetParamBool(l_ConfigRsp, "SupportCPUSemaphoreLock");
 }
 
 static void DebugMessage(int level, const char *message, ...)
