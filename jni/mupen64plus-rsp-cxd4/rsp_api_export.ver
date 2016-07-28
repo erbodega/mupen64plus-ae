@@ -4,7 +4,6 @@ PluginShutdown;
 PluginGetVersion;
 RomOpen;
 DoRspCycles;
-GetDllInfo;
 InitiateRSP;
 RomClosed;
 local: *; };
