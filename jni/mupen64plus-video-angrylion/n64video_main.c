@@ -23,7 +23,7 @@ int ProcessDListShown = 0;
 
 int retro_return(int just_flipping);
 
-void angrylionChangeWindow (void)
+void ChangeWindow (void)
 {
 }
 
@@ -32,16 +32,16 @@ void CloseDLL (void)
     return;
 }
 
-void angrylionReadScreen2(void *dest, int *width, int *height, int front)
+void ReadScreen2(void *dest, int *width, int *height, int front)
 {
 }
 
  
-void angrylionDrawScreen (void)
+void DrawScreen (void)
 {
 }
 
-void angrylionGetDllInfo(PLUGIN_INFO* PluginInfo)
+void GetDllInfo(PLUGIN_INFO* PluginInfo)
 {
     PluginInfo -> Version = 0x0103;
     PluginInfo -> Type  = 2;
@@ -52,11 +52,11 @@ void angrylionGetDllInfo(PLUGIN_INFO* PluginInfo)
     PluginInfo -> MemoryBswaped = true;
 }
 
-void angrylionSetRenderingCallback(void (*callback)(int))
+void SetRenderingCallback(void (*callback)(int))
 {
 }
 
-int angrylionInitiateGFX (GFX_INFO Gfx_Info)
+int InitiateGFX (GFX_INFO Gfx_Info)
 {
 #ifdef HAVE_RDP_DUMP
    const char *env = getenv("RDP_DUMP");
@@ -67,12 +67,12 @@ int angrylionInitiateGFX (GFX_INFO Gfx_Info)
 }
 
  
-void angrylionMoveScreen (int xpos, int ypos)
+void MoveScreen (int xpos, int ypos)
 {
 }
 
  
-void angrylionProcessDList(void)
+void ProcessDList(void)
 {
     if (!ProcessDListShown)
     {
@@ -81,13 +81,13 @@ void angrylionProcessDList(void)
     }
 }
 
-void angrylionProcessRDPList(void)
+void ProcessRDPList(void)
 {
     process_RDP_list();
     return;
 }
 
-void angrylionRomClosed (void)
+void RomClosed (void)
 {
     rdp_close();
 #ifdef HAVE_RDP_DUMP
@@ -97,7 +97,7 @@ void angrylionRomClosed (void)
 
 static m64p_handle l_ConfigAngrylion;
  
-int angrylionRomOpen (void)
+int RomOpen (void)
 {
    /* TODO/FIXME: For now just force it to 640x480.
     *
@@ -123,7 +123,7 @@ int angrylionRomOpen (void)
    return 1;
 }
 
-void angrylionUpdateScreen(void)
+void UpdateScreen(void)
 {
     static int counter;
 
@@ -141,35 +141,35 @@ void angrylionUpdateScreen(void)
     return;
 }
 
-void angrylionShowCFB (void)
+void ShowCFB (void)
 {
     //MessageBox(NULL, "ShowCFB", NULL, MB_ICONWARNING);
-    angrylionUpdateScreen();
+    UpdateScreen();
     return;
 }
 
 
-void angrylionViStatusChanged (void)
+void ViStatusChanged (void)
 {
 }
 
-void angrylionViWidthChanged (void)
+void ViWidthChanged (void)
 {
 }
 
-void angrylionFBWrite(unsigned int addr, unsigned int size)
+void FBWrite(unsigned int addr, unsigned int size)
 {
 }
 
-void angrylionFBRead(unsigned int addr)
+void FBRead(unsigned int addr)
 {
 }
 
-void angrylionFBGetFrameBufferInfo(void *pinfo)
+void FBGetFrameBufferInfo(void *pinfo)
 {
 }
 
-m64p_error angrylionPluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
+m64p_error PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
 {
    /* set version info */
    if (PluginType != NULL)

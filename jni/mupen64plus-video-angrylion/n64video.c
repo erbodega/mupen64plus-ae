@@ -214,6 +214,8 @@ static COLOR blend_color;
 static COLOR prim_color;
 static COLOR env_color;
 
+GFX_INFO gfx_info;
+
 static int rdp_pipeline_crashed;
 
 static RECTANGLE __clip = {

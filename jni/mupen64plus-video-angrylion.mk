@@ -18,7 +18,9 @@ endif
 LOCAL_SRC_FILES := \
     $(SRCDIR)/n64video.c \
     $(SRCDIR)/n64video_main.c \
-    $(SRCDIR)/n64video_vi.c
+    $(SRCDIR)/n64video_vi.c \
+    ../$(LIBRETRO_INCLUDES)/libretro_custom.c \
+    ../$(LIBRETRO_INCLUDES)/Graphics/plugins.c
 
 LOCAL_CFLAGS := $(MY_LOCAL_CFLAGS)
 LOCAL_CPPFLAGS := $(COMMON_CPPFLAGS)
