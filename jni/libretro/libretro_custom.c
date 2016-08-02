@@ -1,7 +1,10 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <api/libretro.h>
 #include <Graphics/plugin.h>
 
+retro_log_printf_t log_cb = NULL;
+retro_video_refresh_t video_cb = NULL;
 
 uint32_t screen_pitch;
 bool flip_only;
@@ -63,3 +66,5 @@ bool emu_step_render(void)
 
    return false;
 }
+
+void retro_set_video_refresh(retro_video_refresh_t cb) { video_cb = cb; }

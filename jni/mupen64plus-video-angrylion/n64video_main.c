@@ -15,6 +15,8 @@
 extern unsigned int screen_width, screen_height;
 extern uint32_t screen_pitch;
 
+GFX_INFO gfx_info;
+
 int res;
 RECT __dst, __src;
 int32_t pitchindwords;
@@ -63,6 +65,8 @@ int InitiateGFX (GFX_INFO Gfx_Info)
    if (env)
       rdp_dump_init(env, 8 * 1024 * 1024);
 #endif
+
+   gfx_info = Gfx_Info;
    return true;
 }
 
