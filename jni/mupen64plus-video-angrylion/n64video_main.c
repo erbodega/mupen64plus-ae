@@ -25,7 +25,7 @@ int ProcessDListShown = 0;
 
 int retro_return(int just_flipping);
 
-void ChangeWindow (void)
+EXPORT void CALL ChangeWindow (void)
 {
 }
 
@@ -34,7 +34,7 @@ void CloseDLL (void)
     return;
 }
 
-void ReadScreen2(void *dest, int *width, int *height, int front)
+EXPORT void CALL ReadScreen2(void *dest, int *width, int *height, int front)
 {
 }
 
@@ -54,11 +54,11 @@ void GetDllInfo(PLUGIN_INFO* PluginInfo)
     PluginInfo -> MemoryBswaped = true;
 }
 
-void SetRenderingCallback(void (*callback)(int))
+EXPORT void CALL SetRenderingCallback(void (*callback)(int))
 {
 }
 
-int InitiateGFX (GFX_INFO Gfx_Info)
+EXPORT m64p_error CALL InitiateGFX (GFX_INFO Gfx_Info)
 {
 #ifdef HAVE_RDP_DUMP
    const char *env = getenv("RDP_DUMP");
@@ -71,12 +71,12 @@ int InitiateGFX (GFX_INFO Gfx_Info)
 }
 
  
-void MoveScreen (int xpos, int ypos)
+EXPORT void CALL MoveScreen (int xpos, int ypos)
 {
 }
 
  
-void ProcessDList(void)
+EXPORT void CALL ProcessDList(void)
 {
     if (!ProcessDListShown)
     {
@@ -85,13 +85,13 @@ void ProcessDList(void)
     }
 }
 
-void ProcessRDPList(void)
+EXPORT void CALL ProcessRDPList(void)
 {
     process_RDP_list();
     return;
 }
 
-void RomClosed (void)
+EXPORT void CALL RomClosed (void)
 {
     rdp_close();
 #ifdef HAVE_RDP_DUMP
@@ -101,7 +101,7 @@ void RomClosed (void)
 
 static m64p_handle l_ConfigAngrylion;
  
-int RomOpen (void)
+EXPORT m64p_error CALL RomOpen (void)
 {
    /* TODO/FIXME: For now just force it to 640x480.
     *
@@ -127,7 +127,7 @@ int RomOpen (void)
    return 1;
 }
 
-void UpdateScreen(void)
+EXPORT void CALL UpdateScreen(void)
 {
     static int counter;
 
@@ -145,7 +145,7 @@ void UpdateScreen(void)
     return;
 }
 
-void ShowCFB (void)
+EXPORT void CALL ShowCFB (void)
 {
     //MessageBox(NULL, "ShowCFB", NULL, MB_ICONWARNING);
     UpdateScreen();
@@ -153,11 +153,11 @@ void ShowCFB (void)
 }
 
 
-void ViStatusChanged (void)
+EXPORT void CALL ViStatusChanged (void)
 {
 }
 
-void ViWidthChanged (void)
+EXPORT void CALL ViWidthChanged (void)
 {
 }
 
@@ -165,15 +165,15 @@ void FBWrite(unsigned int addr, unsigned int size)
 {
 }
 
-void FBRead(unsigned int addr)
+EXPORT void CALL FBRead(unsigned int addr)
 {
 }
 
-void FBGetFrameBufferInfo(void *pinfo)
+EXPORT void CALL FBGetFrameBufferInfo(void *pinfo)
 {
 }
 
-m64p_error PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
+EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
 {
    /* set version info */
    if (PluginType != NULL)
