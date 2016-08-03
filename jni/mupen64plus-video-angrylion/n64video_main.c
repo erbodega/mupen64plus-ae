@@ -11,6 +11,7 @@
 #include "../mupen64plus-video-paraLLEl/rdp_dump.h"
 #endif
 #include <stdlib.h>
+#include "osal_dynamiclib.h"
 
 extern unsigned int screen_width, screen_height;
 extern uint32_t screen_pitch;
@@ -190,6 +191,74 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
 
    if (Capabilities != NULL)
       *Capabilities = 0;
+
+   return M64ERR_SUCCESS;
+}
+
+
+EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context,
+                                   void (*DebugCallback)(void *, int, const char *))
+{
+   CoreConfig_ConfigOpenSection = (ptr_ConfigOpenSection) osal_dynlib_getproc(CoreLibHandle, "ConfigOpenSection");
+   CoreConfig_ConfigSetParameter = (ptr_ConfigSetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigSetParameter");
+   CoreConfig_ConfigGetParameter = (ptr_ConfigGetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParameter");
+   CoreConfig_ConfigSetDefaultInt = (ptr_ConfigSetDefaultInt) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultInt");
+   CoreConfig_ConfigSetDefaultFloat = (ptr_ConfigSetDefaultFloat) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultFloat");
+   CoreConfig_ConfigSetDefaultBool = (ptr_ConfigSetDefaultBool) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultBool");
+   CoreConfig_ConfigSetDefaultString = (ptr_ConfigSetDefaultString) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultString");
+   CoreConfig_ConfigGetParamInt = (ptr_ConfigGetParamInt) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamInt");
+   CoreConfig_ConfigGetParamFloat = (ptr_ConfigGetParamFloat) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamFloat");
+   CoreConfig_ConfigGetParamBool = (ptr_ConfigGetParamBool) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamBool");
+   CoreConfig_ConfigGetParamString = (ptr_ConfigGetParamString) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamString");
+
+   CoreConfig_ConfigGetSharedDataFilepath = (ptr_ConfigGetSharedDataFilepath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetSharedDataFilepath");
+   CoreConfig_ConfigGetUserConfigPath = (ptr_ConfigGetUserConfigPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserConfigPath");
+   CoreConfig_ConfigGetUserDataPath = (ptr_ConfigGetUserDataPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserDataPath");
+   CoreConfig_ConfigGetUserCachePath = (ptr_ConfigGetUserCachePath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserCachePath");
+
+   /* Get the core Video Extension function pointers from the library handle */
+   CoreVideo_Init = (ptr_VidExt_Init) osal_dynlib_getproc(CoreLibHandle, "VidExt_Init");
+   CoreVideo_Quit = (ptr_VidExt_Quit) osal_dynlib_getproc(CoreLibHandle, "VidExt_Quit");
+   CoreVideo_ListFullscreenModes = (ptr_VidExt_ListFullscreenModes) osal_dynlib_getproc(CoreLibHandle, "VidExt_ListFullscreenModes");
+   CoreVideo_SetVideoMode = (ptr_VidExt_SetVideoMode) osal_dynlib_getproc(CoreLibHandle, "VidExt_SetVideoMode");
+   CoreVideo_SetCaption = (ptr_VidExt_SetCaption) osal_dynlib_getproc(CoreLibHandle, "VidExt_SetCaption");
+   CoreVideo_ToggleFullScreen = (ptr_VidExt_ToggleFullScreen) osal_dynlib_getproc(CoreLibHandle, "VidExt_ToggleFullScreen");
+   CoreVideo_ResizeWindow = (ptr_VidExt_ResizeWindow) osal_dynlib_getproc(CoreLibHandle, "VidExt_ResizeWindow");
+   CoreVideo_GL_GetProcAddress = (ptr_VidExt_GL_GetProcAddress) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_GetProcAddress");
+   CoreVideo_GL_SetAttribute = (ptr_VidExt_GL_SetAttribute) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_SetAttribute");
+   CoreVideo_GL_GetAttribute = (ptr_VidExt_GL_GetAttribute) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_GetAttribute");
+   CoreVideo_GL_SwapBuffers = (ptr_VidExt_GL_SwapBuffers) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_SwapBuffers");
+
+   CoreVideo_Init();
+
+   BOOL configResult = Config_Open();
+
+   retro_init();
+   update_variables(true);
+
+   l_DebugCallback = DebugCallback;
+   l_DebugCallContext = Context;
+
+   if(!configResult)
+   {
+      log_cb (RETRO_LOG_ERROR, "Could not open configuration");
+   }
+
+   ReadSettings();
+   setAttributes();
+
+   if(CoreVideo_GL_SwapBuffers == NULL)
+   {
+      log_cb(RETRO_LOG_INFO, "Invalid SwapByffers function");
+   }
+
+   CoreVideo_SetVideoMode(settings.scr_res_x, settings.scr_res_y, 0, M64VIDEO_FULLSCREEN, (m64p_video_flags) 0);
+   return M64ERR_SUCCESS;
+}
+
+EXPORT m64p_error CALL PluginShutdown(void)
+{
+   CoreVideo_Quit();
 
    return M64ERR_SUCCESS;
 }

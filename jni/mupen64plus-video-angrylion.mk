@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := \
     $(SRCDIR)/n64video.c \
     $(SRCDIR)/n64video_main.c \
     $(SRCDIR)/n64video_vi.c \
+    $(SRCDIR)/osal_dynamiclib_unix.c \
     ../$(LIBRETRO_INCLUDES)/libretro_custom.c \
     ../$(LIBRETRO_INCLUDES)/Graphics/plugins.c
 
