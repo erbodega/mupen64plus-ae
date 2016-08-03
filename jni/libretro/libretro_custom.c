@@ -1,12 +1,13 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdarg.h>
 #include <api/libretro.h>
 #include <Graphics/plugin.h>
 
 retro_log_printf_t log_cb = NULL;
 retro_video_refresh_t video_cb = NULL;
+extern void DebugMessage(int level, const char *message, ...);
 
-uint32_t screen_pitch;
 bool flip_only;
 static bool     pushed_frame        = false;
 unsigned frame_dupe = false;
@@ -68,3 +69,16 @@ bool emu_step_render(void)
 }
 
 void retro_set_video_refresh(retro_video_refresh_t cb) { video_cb = cb; }
+
+void DebugLog(enum retro_log_level level, const char *fmt, ...)
+{
+    va_list arguments;
+    va_start ( arguments, fmt );
+    DebugMessage( level, fmt, arguments);
+    va_end ( arguments );
+}
+void retro_init(void)
+{
+   log_cb = DebugLog;
+   screen_pitch = 0;
+}
